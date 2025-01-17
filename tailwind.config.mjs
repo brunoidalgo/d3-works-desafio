@@ -12,8 +12,8 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        sans: ['var(--font-montserrat)'],
-        mono: ['var(--font-inconsolata-mono)'],
+        montserrat: ['var(--font-montserrat)'],
+        inconsolata: ['var(--font-inconsolata-mono)'],
       },
       colors: {
         primarias: {
