@@ -46,6 +46,9 @@ export default {
         sucess: {
           black: '#0BBF02',
           light: '#72FE6B'
+        },
+        customColor: {
+          primary: 'var(--color-primary)',
         }
       }
     },
