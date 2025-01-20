@@ -12,9 +12,11 @@ import seta from "../../../public/assets/seta-direita.svg";
 export default function Quiz() {
 
     const [showLoading, setShowLoading] = useState(false);
+    const [perguntaAtual, setPerguntaAtual] = useState(0);
 
     const handleStart = () => {
         setShowLoading(true);
+        setPerguntaAtual(perguntaAtual + 1);
         setTimeout(() => {
             setShowLoading(false);
         }, 5000);
@@ -28,8 +30,6 @@ export default function Quiz() {
         "Implementar a lógica de negócio da aplicação.",
     ];
 
-    const steps = [1, 2, 3];
-
     return (
         <>
             {showLoading && <Loading />}
@@ -40,18 +40,17 @@ export default function Quiz() {
                         alt="circulo-dourado"
                     />
                     <div className="font-inconsolata font-thin flex flex-col text-left w-[428px] text-wrap">
-                        <div>ETAPA {steps.map((step) => {
-                            return (
-                                <span key={step} className="text-primarias-black">{step} / 3</span>
-                            )
-                        })}</div>
+                        <div>
+                            <span className="text-primarias-black">{perguntaAtual + 1} / {questions.length - 2}
+                            </span>
+                        </div>
                         <div className="flex flex-col gap-1 mt-2 mb-2">
                             Qual das seguintes opções NÃO é considerada uma das principais responsabilidades de um desenvolvedor backend?
                         </div>
                         {questions.map((question, index) => {
                             return (
-                                <div key={index} className="flex flex-row gap-2 bg-neutras-black p-2 mt-2 mb-2">
-                                    <input type="radio" id={index} name="question" value={question} />
+                                <div key={index} className="flex flex-row gap-2 bg-neutras-black p-2 mt-2 mb-2 text-left items-center">
+                                    <input type="radio" id={index} name="question" value={question} className="m-4" />
                                     <label htmlFor={index}>{question}</label>
                                 </div>
                             )
