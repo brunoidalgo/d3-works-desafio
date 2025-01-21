@@ -8,27 +8,49 @@ import { useState } from "react";
 
 import circuloDourado from "../../../public/assets/circulo-dourado.png";
 import seta from "../../../public/assets/seta-direita.svg";
+import Dropdown from "../components/Dropdown";
 
 export default function Quiz() {
 
     const [showLoading, setShowLoading] = useState(false);
-    const [perguntaAtual, setPerguntaAtual] = useState(0);
+    const [perguntaAtual, setPerguntaAtual] = useState(1);
 
     const handleStart = () => {
         setShowLoading(true);
-        setPerguntaAtual(perguntaAtual + 1);
+        if (perguntaAtual < tittles.length) {
+            setPerguntaAtual(perguntaAtual + 1);
+        }
         setTimeout(() => {
             setShowLoading(false);
-        }, 5000);
+        }, 3000);
     }
 
-    const questions = [
-        "Criar APIs para serem consumidas por aplicações front-end",
-        "Desenvolver a interface visual do aplicativo.",
-        "Gerenciar bancos de dados e armazenamento de informações.",
-        "Gerenciar bancos de dados e armazenamento de informações.",
-        "Implementar a lógica de negócio da aplicação.",
-    ];
+    const tittles = [
+        {
+            id: 1,
+            title: "Qual das seguintes opções NÃO é considerada uma das principais responsabilidades de um desenvolvedor backend?",
+            questions: [
+                "Criar APIs para serem consumidas por aplicações front-end",
+                "Desenvolver a interface visual do aplicativo.",
+                "Gerenciar bancos de dados e armazenamento de informações.",
+                "Implementar a lógica de negócio da aplicação."
+            ]
+        },
+        {
+            id: 2,
+            title: "Qual das seguintes tecnologias é primariamente utilizada para manipular o DOM (Document Object Model) e criar interfaces dinâmicas em aplicações web?",
+            questions: [
+                `React`,
+            ]
+        },
+        {
+            id: 3,
+            title: "Escreva uma redação falando sobre o impacto das IAs na área da tecnologia.",
+            questions: [
+                "Implementar a lógica de negócio da aplicação."
+            ]
+        }
+    ]
 
     return (
         <>
@@ -41,26 +63,45 @@ export default function Quiz() {
                     />
                     <div className="font-inconsolata font-thin flex flex-col text-left w-[428px] text-wrap">
                         <div>
-                            <span className="text-primarias-black">{perguntaAtual + 1} / {questions.length - 2}
+                            {/* Contador de perguntas */}
+                            <span className="text-primarias-black">{perguntaAtual} / {tittles.length}
                             </span>
                         </div>
-                        <div className="flex flex-col gap-1 mt-2 mb-2">
-                            Qual das seguintes opções NÃO é considerada uma das principais responsabilidades de um desenvolvedor backend?
-                        </div>
-                        {questions.map((question, index) => {
-                            return (
-                                <div key={index} className="flex flex-row gap-2 bg-neutras-black p-2 mt-2 mb-2 text-left items-center">
-                                    <input type="radio" id={index} name="question" value={question} className="m-4" />
-                                    <label htmlFor={index}>{question}</label>
+                        {/* Utilizando map para renderizar as perguntas */}
+                        {tittles.filter(element => element.id === perguntaAtual)
+                            .map(element => (
+                                <div key={element.id} className="text-neutras-white">
+                                    <p>{element.title}</p>
                                 </div>
-                            )
-                        })}
+                            ))}
+                        {/* Utilizando map para renderizar as respostas */}
+                        {tittles
+                            .filter(element => element.id === perguntaAtual)
+                            .map(element => (
+                                <div key={element.id} className="flex flex-col gap-2 bg-neutras-black p-4 mt-2 mb-2 text-left">
+                                    {element.questions.map((question, index) => (
+                                        element.id === 2 ? <Dropdown key={index == 2} /> :
+                                            <div key={index} className="flex flex-row items-center gap-2">
+                                                <input
+                                                    type="radio"
+                                                    id={`${element.id}-${index}`}
+                                                    name={`question-${element.id}`}
+                                                    value={question}
+                                                    className="appearance-none m-4 w-8 h-8 rounded-full border-2 border-gray-500 bg-white checked:bg-blue-500 checked:border-blue-500"
+                                                />
+                                                <label htmlFor={`${element.id}-${index}`}>{question}</label>
+                                            </div>
+                                    ))}
+                                </div>
+                            ))}
                         <button className="mt-10 p-2 bg-primarias-black text-neutras-black font-inconsolata w-[150px]" onClick={handleStart}>
                             <div className="flex flex-row justify-center text-center items-center gap-2">
                                 <p>Próximo</p>
-                                <Image src={seta}
+                                <Image
+                                    src={seta}
                                     width={20}
-                                    height={20} alt="seta-direita" />
+                                    height={20} alt="seta-direita"
+                                />
                             </div>
                         </button>
                     </div>
