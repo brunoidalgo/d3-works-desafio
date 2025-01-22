@@ -1,14 +1,16 @@
 "use client"
 
+import { useState } from "react";
 import Image from "next/image";
+
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Loading from "../components/Loading";
-import { useState } from "react";
+import Dropdown from "../components/Dropdown";
 
 import circuloDourado from "../../../public/assets/circulo-dourado.png";
 import seta from "../../../public/assets/seta-direita.svg";
-import Dropdown from "../components/Dropdown";
+import Canvas from "../components/Canvas";
 
 export default function Quiz() {
 
@@ -79,19 +81,35 @@ export default function Quiz() {
                             .filter(element => element.id === perguntaAtual)
                             .map(element => (
                                 <div key={element.id} className="flex flex-col gap-2 bg-neutras-black p-4 mt-2 mb-2 text-left">
-                                    {element.questions.map((question, index) => (
-                                        element.id === 2 ? <Dropdown key={index == 2} /> :
-                                            <div key={index} className="flex flex-row items-center gap-2">
-                                                <input
-                                                    type="radio"
-                                                    id={`${element.id}-${index}`}
-                                                    name={`question-${element.id}`}
-                                                    value={question}
-                                                    className="appearance-none m-4 w-8 h-8 rounded-full border-2 border-gray-500 bg-white checked:bg-blue-500 checked:border-blue-500"
+                                    {element.questions.map((question, index) => {
+                                        if (element.id === 2) {
+                                            return <Dropdown key={`dropdown-${index}`} />;
+                                        } else if (element.id === 3) {
+                                            return (
+                                                <Canvas
+                                                    key={`another-component-${index}`}
+                                                    question={question}
                                                 />
-                                                <label htmlFor={`${element.id}-${index}`}>{question}</label>
-                                            </div>
-                                    ))}
+                                            );
+                                        } else {
+                                            return (
+                                                <div
+                                                    key={`question-${index}`}
+                                                    className="flex flex-row items-center gap-2"
+                                                >
+                                                    <input
+                                                        type="radio"
+                                                        id={`${element.id}-${index}`}
+                                                        name={`question-${element.id}`}
+                                                        value={question}
+                                                        className="appearance-none m-4 w-8 h-8 rounded-full border-2 border-gray-500 bg-white checked:bg-blue-500 checked:border-blue-500"
+                                                    />
+                                                    <label htmlFor={`${element.id}-${index}`}>{question}</label>
+                                                </div>
+                                            );
+                                        }
+                                    })}
+
                                 </div>
                             ))}
                         <button className="mt-10 p-2 bg-primarias-black text-neutras-black font-inconsolata w-[150px]" onClick={handleStart}>
