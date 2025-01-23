@@ -1,7 +1,7 @@
 describe('Testes automatizados projeto D3 Works', () => {
 
   beforeEach(() => {
-    cy.visit('http://localhost:3000/')
+    cy.visit('https://h3-works-desafio.vercel.app/')
   });
 
   it('testando página inicial e questionarios com viewport de mobile', () => {

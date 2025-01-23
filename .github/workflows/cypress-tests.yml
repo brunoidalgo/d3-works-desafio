@@ -16,9 +16,6 @@ jobs:
     
           - name: Instalando dependências	
             run: npm install
-
-          - name: Iniciando servidor local
-            run: npm run dev
     
           - name: Rodando testes E2E
             run: npx cypress run
