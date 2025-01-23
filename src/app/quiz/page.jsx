@@ -3,15 +3,15 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Loading from "../components/Loading";
-import Dropdown from "../components/Dropdown";
+import Footer from "@/app/components/Footer";
+import Header from "@/app/components/Header";
+import Loading from "@/app/components/Loading";
+import Dropdown from "@/app/components/Dropdown";
+import SucessScreen from "@/app/components/SucessScreen";
+import Canvas from "@/app/components/Canvas";
 
 import circuloDourado from "../../../public/assets/circulo-dourado.png";
 import seta from "../../../public/assets/seta-direita.svg";
-import Canvas from "../components/Canvas";
-import Questions from "../components/Questions";
 
 export default function Quiz() {
 
@@ -19,10 +19,10 @@ export default function Quiz() {
     const [perguntaAtual, setPerguntaAtual] = useState(1);
 
     const handleStart = () => {
-        setShowLoading(true);
         if (perguntaAtual < tittles.length) {
             setPerguntaAtual(perguntaAtual + 1);
         }
+        setShowLoading(true);
         setTimeout(() => {
             setShowLoading(false);
         }, 3000);
@@ -94,25 +94,34 @@ export default function Quiz() {
                                                     question={question}
                                                 />
                                             );
-                                        } else {
+                                        } else if (element.id === 1) {
                                             return (
-                                                <Questions
-                                                    key={`another-component-${index}`}
-                                                    question={question}
-                                                />
+                                                <div
+                                                    key={`question-${index}`}
+                                                    className="flex flex-row items-center gap-2"
+                                                >
+                                                    <input
+                                                        type="radio"
+                                                        id={`${element.id}-${index}`}
+                                                        name={`question-${element.id}`}
+                                                        value={question}
+                                                        className="appearance-none m-4 w-8 h-8 rounded-full border-2 border-gray-500 bg-white checked:bg-blue-500 checked:border-blue-500"
+                                                    />
+                                                    <label htmlFor={`${element.id}-${index}`}>{question}</label>
+                                                </div>
                                             );
                                         }
                                     })}
-
                                 </div>
                             ))}
                         <button className="mt-10 p-2 bg-primarias-black text-neutras-black font-inconsolata w-[150px]" onClick={handleStart}>
                             <div className="flex flex-row justify-center text-center items-center gap-2">
-                                <p>Próximo</p>
+                                <p>{perguntaAtual == 3 ? `Finalizar` : `Próximo`}</p>
                                 <Image
                                     src={seta}
                                     width={20}
-                                    height={20} alt="seta-direita"
+                                    height={20}
+                                    alt="seta-direita"
                                 />
                             </div>
                         </button>
